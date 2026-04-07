@@ -1,4 +1,4 @@
-# 💓 Heart Disease Prediction System
+# Heart Disease Prediction System
 
 An advanced Machine Learning-based system to predict the likelihood of heart disease using patient health data. The project integrates multiple ML models and provides real-time predictions through an interactive web application.
 
@@ -47,9 +47,3 @@ An advanced Machine Learning-based system to predict the likelihood of heart dis
 
 ---
 
-## ⚙️ Installation & Setup
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/your-username/heart-disease-prediction.git
-cd heart-disease-prediction
