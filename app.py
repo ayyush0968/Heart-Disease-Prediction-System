@@ -14,7 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 st.title("Heart Disease Prediction (Advanced AI System)")
 st.write("Includes multiple ML models, evaluation metrics & risk prediction")
 
-# ---------------- Load Data ----------------
+# ---------------- Load Data ---------------
 @st.cache_data
 def load_data():
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
