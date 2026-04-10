@@ -10,11 +10,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-# ---------------- UI ----------------
+# UI
 st.title("Heart Disease Prediction (Advanced AI System)")
 st.write("Includes multiple ML models, evaluation metrics & risk prediction")
 
-# ---------------- Load Data ---------------
+# Load Data
 @st.cache_data
 def load_data():
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
@@ -29,7 +29,7 @@ def load_data():
 
 data = load_data()
 
-# ---------------- Split ----------------
+# Split
 X = data.drop('target', axis=1)
 y = data['target']
 
@@ -37,12 +37,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# ---------------- Scaling ----------------
+# Scaling
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# ---------------- Models ----------------
+# Models
 models = {
     "Logistic Regression": LogisticRegression(max_iter=1000),
     "Decision Tree": DecisionTreeClassifier(),
@@ -52,8 +52,8 @@ models = {
 results = {}
 trained_models = {}
 
-# ---------------- Train & Evaluate ----------------
-st.subheader("📊 Model Evaluation")
+# Train & Evaluate
+st.subheader("Model Evaluation")
 
 for name, model in models.items():
     model.fit(X_train, y_train)
@@ -67,7 +67,7 @@ for name, model in models.items():
     results[name] = acc
     trained_models[name] = model
 
-    st.write(f"### {name}")
+    st.write(f"{name}")
     st.write(f"Accuracy: {acc*100:.2f}%")
     st.write(f"ROC-AUC: {roc:.2f}")
 
@@ -77,14 +77,14 @@ for name, model in models.items():
     st.write("Classification Report:")
     st.text(classification_report(y_test, y_pred))
 
-# ---------------- Best Model ----------------
+# Best Model
 best_model_name = max(results, key=results.get)
 best_model = trained_models[best_model_name]
 
-st.success(f"🏆 Best Model Selected: {best_model_name}")
+st.write(f"Best Model Selected: {best_model_name}")
 
-# ---------------- Feature Importance ----------------
-st.subheader("📌 Feature Importance")
+# Feature Importance
+st.subheader("Feature Importance")
 
 if best_model_name in ["Random Forest", "Decision Tree"]:
     importance = best_model.feature_importances_
@@ -98,8 +98,8 @@ importance_df = pd.DataFrame({
 
 st.dataframe(importance_df)
 
-# ---------------- User Input ----------------
-st.subheader("🧑 Enter Patient Details")
+# User Input
+st.subheader("Enter Patient Details")
 
 age = st.slider("Age", 1, 120, 63)
 sex = st.selectbox("Sex", [1, 0], format_func=lambda x: "Male" if x==1 else "Female")
@@ -115,8 +115,8 @@ slope = st.slider("Slope", 0, 2, 0)
 ca = st.slider("Major Vessels", 0, 3, 0)
 thal = st.slider("Thalassemia", 1, 3, 1)
 
-# ---------------- Prediction ----------------
-if st.button("🔍 Predict Risk"):
+# Prediction
+if st.button("Predict Risk"):
 
     input_data = np.array([[age, sex, cp, trestbps, chol, fbs,
                             restecg, thalach, exang, oldpeak,
@@ -127,11 +127,11 @@ if st.button("🔍 Predict Risk"):
     prediction = best_model.predict(input_scaled)[0]
     probability = best_model.predict_proba(input_scaled)[0][1]
 
-    st.subheader("🩺 Prediction Result")
+    st.subheader("Prediction Result")
 
     st.write(f"Risk Probability: {probability*100:.2f}%")
 
     if prediction == 1:
-        st.error("⚠️ High Risk of Heart Disease")
+        st.write("High Risk of Heart Disease")
     else:
-        st.success("✅ Low Risk of Heart Disease")
+        st.write("Low Risk of Heart Disease")
